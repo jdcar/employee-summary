@@ -44,10 +44,13 @@ function employeeInfo() {
         .then((response => {
             if (response.employeeType == "Engineer") {
                 engineerInfo() 
+            } else if (response.employeeType == "Intern") {
+                internInfo()
+            } else if (response.employeeType == "Manager") {
+                managerInfo()
             }
 
-        })
-        );
+        }));
 
 }
 
@@ -63,13 +66,47 @@ function engineerInfo() {
         ])
         .then((response => {
             
-            response.github
-            console.log("Engineer questions run")
+            console.log(response.github)
 
-        })
-        );
+        }));
 
 }
+
+function internInfo() {
+    inquirer
+        .prompt([
+           
+            {
+                type: "input",
+                name: "school",
+                message: "School name?"
+            }
+        ])
+        .then((response => {
+            
+            console.log(response.school)
+
+        }));
+}
+
+function managerInfo() {
+    inquirer
+        .prompt([
+           
+            {
+                type: "input",
+                name: "officeNumber",
+                message: "Office number?"
+            }
+        ])
+        .then((response => {
+            
+            console.log(response.officeNumber)
+
+        }));
+
+}
+
 // and to create objects for each team member (using the correct classes as blueprints!)
 
 // After the user has input all employees desired, call the `render` function (required
