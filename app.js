@@ -20,6 +20,8 @@ let employees = []
 // 
 employeeInfo()
 
+
+
 function employeeInfo() {
     inquirer
         .prompt([
@@ -72,7 +74,7 @@ function engineerInfo(name, id, email) {
             },
             {
                 type: "confirm",
-                name: "addmorequestions",
+                name: "addAnother",
                 message: "Would you like to add another employee?"
             }
         ])
@@ -80,18 +82,16 @@ function engineerInfo(name, id, email) {
             
             const engineer = new Engineer(name, id, email, response.github)
 
-            if (response.addAnother === "Yes") {
+            if (response.addAnother) {
                 employees.push(engineer)
                 console.log(employees)
                 employeeInfo()
             } else {
                 employees.push(engineer)
                 console.log(employees)
-
-                // runRender()
+                render(employees)
             }
 
-             
         }));
 
 }
@@ -117,8 +117,16 @@ function internInfo(name, id, email) {
             const intern = new Intern(name, id, email, response.school)
             console.log(intern)
 
-            employees.push(intern)
-            runRender() 
+            if (response.addAnother) {
+                employees.push(intern)
+                console.log(employees)
+                employeeInfo()
+            } else {
+                employees.push(intern)
+                console.log(employees)
+                render(employees)
+            }
+
         }));
 }
 
@@ -141,16 +149,21 @@ function managerInfo(name, id, email) {
             
             const manager = new Manager(name, id, email, response.officeNumber)
 
-            employees.push(manager)
-
-            runRender() 
+            if (response.addAnother) {
+                employees.push(manager)
+                console.log(employees)
+                employeeInfo()
+            } else {
+                employees.push(manager)
+                console.log(employees)
+                render(employees)
+            }
         }));
 
 }
 
-function runRender() {
-    render()
-}
+// render()
+
 // and to create objects for each team member (using the correct classes as blueprints!)
 
 // After the user has input all employees desired, call the `render` function (required
