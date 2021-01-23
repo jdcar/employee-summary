@@ -9,12 +9,17 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
+const Employee = require("./lib/Employee");
+const { start } = require("repl");
 
 
 // Write code to use inquirer to gather information about the development team members,
 
+let employees = []
+
 // 
 employeeInfo()
+
 function employeeInfo() {
     inquirer
         .prompt([
@@ -42,19 +47,21 @@ function employeeInfo() {
 
         ])
         .then((response => {
+
             if (response.employeeType == "Engineer") {
-                engineerInfo() 
+                response.name
+                engineerInfo(response.name, response.id, response.email) 
             } else if (response.employeeType == "Intern") {
-                internInfo()
+                internInfo(response.name, response.id, response.email)
             } else if (response.employeeType == "Manager") {
-                managerInfo()
+                managerInfo(response.name, response.id, response.email)
             }
 
         }));
 
 }
 
-function engineerInfo() {
+function engineerInfo(name, id, email) {
     inquirer
         .prompt([
            
@@ -62,17 +69,34 @@ function engineerInfo() {
                 type: "input",
                 name: "github",
                 message: "Github username?"
+            },
+            {
+                type: "confirm",
+                name: "addmorequestions",
+                message: "Would you like to add another employee?"
             }
         ])
         .then((response => {
             
-            console.log(response.github)
+            const engineer = new Engineer(name, id, email, response.github)
 
+            if (response.addAnother === "Yes") {
+                employees.push(engineer)
+                console.log(employees)
+                employeeInfo()
+            } else {
+                employees.push(engineer)
+                console.log(employees)
+
+                // runRender()
+            }
+
+             
         }));
 
 }
 
-function internInfo() {
+function internInfo(name, id, email) {
     inquirer
         .prompt([
            
@@ -80,16 +104,25 @@ function internInfo() {
                 type: "input",
                 name: "school",
                 message: "School name?"
+            },
+            {
+                type: "confirm",
+                name: "addAnother",
+                message: "Would you like to add another employee?"
             }
+
         ])
         .then((response => {
             
-            console.log(response.school)
+            const intern = new Intern(name, id, email, response.school)
+            console.log(intern)
 
+            employees.push(intern)
+            runRender() 
         }));
 }
 
-function managerInfo() {
+function managerInfo(name, id, email) {
     inquirer
         .prompt([
            
@@ -97,16 +130,27 @@ function managerInfo() {
                 type: "input",
                 name: "officeNumber",
                 message: "Office number?"
+            },
+            {
+                type: "confirm",
+                name: "addAnother",
+                message: "Would you like to add another employee?"
             }
         ])
         .then((response => {
             
-            console.log(response.officeNumber)
+            const manager = new Manager(name, id, email, response.officeNumber)
 
+            employees.push(manager)
+
+            runRender() 
         }));
 
 }
 
+function runRender() {
+    render()
+}
 // and to create objects for each team member (using the correct classes as blueprints!)
 
 // After the user has input all employees desired, call the `render` function (required
@@ -128,3 +172,4 @@ function managerInfo() {
 // for further information. Be sure to test out each class and verify it generates an
 // object with the correct structure and methods. This structure will be crucial in order
 // for the provided `render` function to work! ```
+
