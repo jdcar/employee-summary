@@ -5,8 +5,7 @@ const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
 
-const OUTPUT_DIR = path.resolve(__dirname, "output");
-const outputPath = path.join(OUTPUT_DIR, "team.html");
+
 
 const render = require("./lib/htmlRenderer");
 const Employee = require("./lib/Employee");
@@ -52,18 +51,52 @@ function employeeInfo() {
 
             if (response.employeeType == "Engineer") {
                 response.name
-                engineerInfo(response.name, response.id, response.email) 
+                engineerInfo(response.name,response.employeeType.join(''),  response.id, response.email) 
             } else if (response.employeeType == "Intern") {
-                internInfo(response.name, response.id, response.email)
+                internInfo(response.name, response.employeeType.join(''), response.id, response.email)
             } else if (response.employeeType == "Manager") {
-                managerInfo(response.name, response.id, response.email)
+                managerInfo(response.name, response.employeeType.join(''), response.id, response.email)
             }
 
         }));
 
 }
 
-function engineerInfo(name, id, email) {
+
+// manager
+function managerInfo(name, employeeType, id, email) {
+    inquirer
+        .prompt([
+           
+            {
+                type: "input",
+                name: "officeNumber",
+                message: "Office number?"
+            },
+            {
+                type: "confirm",
+                name: "addAnother",
+                message: "Would you like to add another employee?"
+            }
+        ])
+        .then((response => {
+            
+            const manager = new Manager(name, employeeType, id, email, response.officeNumber)
+
+            if (response.addAnother) {
+                employees.push(manager)
+                console.log(employees)
+                employeeInfo()
+            } else {
+                employees.push(manager)
+                console.log(employees)
+                render(employees)
+            }
+        }));
+
+}
+// engieer
+function engineerInfo(name, employeeType, id, email) {
     inquirer
         .prompt([
            
@@ -80,7 +113,7 @@ function engineerInfo(name, id, email) {
         ])
         .then((response => {
             
-            const engineer = new Engineer(name, id, email, response.github)
+            const engineer = new Engineer(name, employeeType, id, email, response.github)
 
             if (response.addAnother) {
                 employees.push(engineer)
@@ -95,8 +128,9 @@ function engineerInfo(name, id, email) {
         }));
 
 }
+// intern
 
-function internInfo(name, id, email) {
+function internInfo(name, employeeType, id, email) {
     inquirer
         .prompt([
            
@@ -114,7 +148,7 @@ function internInfo(name, id, email) {
         ])
         .then((response => {
             
-            const intern = new Intern(name, id, email, response.school)
+            const intern = new Intern(name, employeeType, id, email, response.school)
             console.log(intern)
 
             if (response.addAnother) {
@@ -130,37 +164,7 @@ function internInfo(name, id, email) {
         }));
 }
 
-function managerInfo(name, id, email) {
-    inquirer
-        .prompt([
-           
-            {
-                type: "input",
-                name: "officeNumber",
-                message: "Office number?"
-            },
-            {
-                type: "confirm",
-                name: "addAnother",
-                message: "Would you like to add another employee?"
-            }
-        ])
-        .then((response => {
-            
-            const manager = new Manager(name, id, email, response.officeNumber)
-
-            if (response.addAnother) {
-                employees.push(manager)
-                console.log(employees)
-                employeeInfo()
-            } else {
-                employees.push(manager)
-                console.log(employees)
-                render(employees)
-            }
-        }));
-
-}
+module.exports = outputPath
 
 // render()
 
