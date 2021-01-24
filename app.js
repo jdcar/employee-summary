@@ -51,11 +51,11 @@ function employeeInfo() {
 
             if (response.employeeType == "Engineer") {
                 response.name
-                engineerInfo(response.name,response.employeeType.join(''),  response.id, response.email) 
+                engineerInfo(response.name,  response.id, response.email) 
             } else if (response.employeeType == "Intern") {
-                internInfo(response.name, response.employeeType.join(''), response.id, response.email)
+                internInfo(response.name, response.id, response.email)
             } else if (response.employeeType == "Manager") {
-                managerInfo(response.name, response.employeeType.join(''), response.id, response.email)
+                managerInfo(response.name, response.id, response.email)
             }
 
         }));
@@ -64,7 +64,7 @@ function employeeInfo() {
 
 
 // manager
-function managerInfo(name, employeeType, id, email) {
+function managerInfo(name, id, email) {
     inquirer
         .prompt([
            
@@ -81,7 +81,7 @@ function managerInfo(name, employeeType, id, email) {
         ])
         .then((response => {
             
-            const manager = new Manager(name, employeeType, id, email, response.officeNumber)
+            const manager = new Manager(name, id, email, response.officeNumber)
 
             if (response.addAnother) {
                 employees.push(manager)
@@ -96,7 +96,7 @@ function managerInfo(name, employeeType, id, email) {
 
 }
 // engieer
-function engineerInfo(name, employeeType, id, email) {
+function engineerInfo(name, id, email) {
     inquirer
         .prompt([
            
@@ -113,7 +113,7 @@ function engineerInfo(name, employeeType, id, email) {
         ])
         .then((response => {
             
-            const engineer = new Engineer(name, employeeType, id, email, response.github)
+            const engineer = new Engineer(name, id, email, response.github)
 
             if (response.addAnother) {
                 employees.push(engineer)
@@ -130,7 +130,7 @@ function engineerInfo(name, employeeType, id, email) {
 }
 // intern
 
-function internInfo(name, employeeType, id, email) {
+function internInfo(name, id, email) {
     inquirer
         .prompt([
            
@@ -148,7 +148,7 @@ function internInfo(name, employeeType, id, email) {
         ])
         .then((response => {
             
-            const intern = new Intern(name, employeeType, id, email, response.school)
+            const intern = new Intern(name, id, email, response.school)
             console.log(intern)
 
             if (response.addAnother) {
