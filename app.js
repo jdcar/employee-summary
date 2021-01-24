@@ -164,7 +164,6 @@ function internInfo(name, employeeType, id, email) {
         }));
 }
 
-module.exports = outputPath
 
 // render()
 
