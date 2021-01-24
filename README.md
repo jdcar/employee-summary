@@ -5,6 +5,7 @@ https://github.com/jdcar/employee-summary
 * [Installation Instructions](#installation-instructions)
 * [License](#license)
 * [Questions](#questions)
+* [Screenshots](#screenshots)
 ## Description
 This is a command line application that builds a webpage summary of employees. It includes three employee types: Manager, intern, and engineer.
 ## Installation Instructions
@@ -21,3 +22,8 @@ You can also follow along with this video: https://drive.google.com/file/d/1mWiF
 MIT. Copyright (c) 2021 Jamie Carlstone
 ## Questions
 * https://github.com/jdcar
+## Screenshots
+
+![Webpage](img/webpage.JPG "Web page")
+![Team](img/team-html.JPG "Web page")
+![Terminal](img/terminal.JPG "Web page")
